@@ -13,7 +13,8 @@ struct ContentView: View {
     @StateObject var llamaState = LlamaState()
     @State private var multiLineText = ""
     @State private var showingHelp = false    // To track if Help Sheet should be shown
-
+    @State private var showPopover = false
+    
     var body: some View
     {
             VStack {
@@ -51,11 +52,12 @@ struct ContentView: View {
                 .buttonStyle(.bordered)
                 .padding()
 
-                NavigationLink(destination: DrawerView(llamaState: llamaState)) {
-                    Text("View Models")
+                Button("Show Popover") {
+                    showPopover = true
                 }
-                .padding()
-
+                .popover(isPresented: $showPopover, arrowEdge: .bottom) {
+                    DrawerView(llamaState: llamaState)
+                }
             }
             .padding()
     }
