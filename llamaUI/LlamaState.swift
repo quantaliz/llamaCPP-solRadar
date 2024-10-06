@@ -114,7 +114,7 @@ class LlamaState: ObservableObject {
         let t_heat_end = DispatchTime.now().uptimeNanoseconds
         let t_heat = Double(t_heat_end - t_start) / NS_PER_S
 
-        messageLog += "\(text)"
+        messageLog += "\n\nUser: \(text) \n\nAssistant: "
 
         Task.detached {
             while await !llamaContext.is_done {
