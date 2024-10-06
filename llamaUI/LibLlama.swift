@@ -30,8 +30,15 @@ func llama_batch_add(_ batch: inout llama_batch, _ id: llama_token, _ pos: llama
 }
 
 actor LlamaContext {
+    //////////////////
+    /// Update this constant
+    /// Get your key https://pro.coinmarketcap.com/signup/
+    static let COIN_MARKET_CAP_API=
+    //////////////////
+    
     private var model: OpaquePointer
     private var context: OpaquePointer
+    private let batchSize: Int32 = 8192
     private var batch: llama_batch
     private var tokens_list: [llama_token]
     var is_done: Bool = false
@@ -39,12 +46,12 @@ actor LlamaContext {
     /// This variable is used to store temporarily invalid cchars
     private var temporary_invalid_cchars: [CChar]
 
-    var n_len: Int32 = 1024
+    var n_len: Int32 = 8192 * 2
     var n_cur: Int32 = 0
 
     var n_decode: Int32 = 0
     
-    let systemPrompt: String = """
+    static let systemPrompt: String = """
         <|begin_of_text|><|start_header_id|>system<|end_header_id|>
 
         Cutting Knowledge Date: December 2023
@@ -54,14 +61,14 @@ actor LlamaContext {
         $$DATA$$
         <|eot_id|>
         """
-    let usrPrompt: String = "<|start_header_id|>user<|end_header_id|>\n\n"
-    let asstPrompt: String = "<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+    static let usrPrompt: String = "<|start_header_id|>user<|end_header_id|>\n\n"
+    static let asstPrompt: String = "<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
 
     init(model: OpaquePointer, context: OpaquePointer) {
         self.model = model
         self.context = context
         self.tokens_list = []
-        self.batch = llama_batch_init(512, 0, 1)
+        self.batch = llama_batch_init(batchSize, 0, 1)
         self.temporary_invalid_cchars = []
     }
 
@@ -91,7 +98,8 @@ actor LlamaContext {
 
         var ctx_params = llama_context_default_params()
         ctx_params.seed  = 1234
-        ctx_params.n_ctx = 2048
+        ctx_params.n_ctx = 8192 * 2
+        ctx_params.n_batch = 8192
         ctx_params.n_threads       = UInt32(n_threads)
         ctx_params.n_threads_batch = UInt32(n_threads)
 
@@ -126,6 +134,23 @@ actor LlamaContext {
 
     func get_n_tokens() -> Int32 {
         return batch.n_tokens;
+    }
+    
+    func loadSysPrompt() -> String
+    {
+        let today = Date()
+        var sysPro = LlamaContext.systemPrompt.replacingOccurrences(of: "$$DATE$$", with: today.description)
+        let coinGekko = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?id=5426"
+        let kvS = ["X-CMC_PRO_API_KEY" : LlamaContext.COIN_MARKET_CAP_API]
+        let (_, urlResp) = URLRequests.performRequest(urlString: coinGekko, headers: kvS)
+        if let strResp = urlResp {
+            sysPro = sysPro.replacingOccurrences(of: "$$DATA$$", with: strResp)
+        }
+        else {
+            sysPro = sysPro.replacingOccurrences(of: "$$DATA$$", with: "")
+        }
+        
+        return sysPro
     }
 
     func completion_init(text: String) {

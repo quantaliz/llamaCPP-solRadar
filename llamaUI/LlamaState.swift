@@ -25,6 +25,7 @@ class LlamaState: ObservableObject {
     @Published var undownloadedModels: [Model] = []
     let NS_PER_S = 1_000_000_000.0
 
+    var sysPromptLoaded = false
     private var llamaContext: LlamaContext?
     private var defaultModelUrl: URL? {
 //        Bundle.main.url(forResource: "ggml-model", withExtension: "gguf", subdirectory: "models")
@@ -95,12 +96,6 @@ class LlamaState: ObservableObject {
                 
                 // Assuming that the model is successfully loaded, update the downloaded models
                 updateDownloadedModels(modelName: modelUrl.lastPathComponent, status: "downloaded")
-                
-            
-                let today = Date()
-                var sysPro = locLlamaContext.systemPrompt.replacingOccurrences(of: "$$DATE$$", with: today.description)
-                let urlResp = URLRequests.fetchData(from: "")
-                
             }
             else {
                 messageLog += "Model with URL: \(modelUrl) could not be loaded\n"
@@ -119,6 +114,23 @@ class LlamaState: ObservableObject {
     func complete(text: String) async {
         guard let llamaContext else {
             return
+        }
+        
+        var fullText = ""
+        
+        if sysPromptLoaded == false
+        {
+            fullText = await llamaContext.loadSysPrompt()
+            fullText += LlamaContext.usrPrompt
+            fullText += text
+            fullText += LlamaContext.asstPrompt
+            
+            sysPromptLoaded = true
+        }
+        else {
+            fullText = LlamaContext.usrPrompt
+            fullText = text
+            fullText += LlamaContext.asstPrompt
         }
 
         let t_start = DispatchTime.now().uptimeNanoseconds

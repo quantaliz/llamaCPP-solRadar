@@ -1,11 +1,12 @@
-# llama.cpp
-Check the original [llama.cpp](https://github.com/ggerganov/llama.cpp/) project
+# Private AI for Solana
 
-This is a sample project that strips most of the contents of Llama.cpp and makes sure they compile on Xcode.
+Sample project for the hackathon Solana Radar 2024
 
-License: MIT
+This project tries to create a desktop app that can connect to a Solana endpoint to obtain data and process it with an LLM to get information from it.
 
-Based on commit "bda62d7999caa8c222b6c354ac1e7c7442508539" from the llama project
+Currently, it connect to Coinmarketcap. To run this example, it requires an API key from Coinmarketcap. You must update the constant "COIN_MARKET_CAP_API", it does not compile without it. Get it here: https://pro.coinmarketcap.com/signup/
 
-Download Model:
+Also, it requires to download an LLM Model. It was tested with
 https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF/
+
+A fork of project: https://github.com/rhvall/llamaCPP-xcode
