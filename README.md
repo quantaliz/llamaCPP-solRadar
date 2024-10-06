@@ -1,5 +1,7 @@
 # Private AI for Solana
 
+![SoloBot](llamaUI/Assets.xcassets/SoloBot.jpg "Private AI Solana Bot")
+
 Sample project for the hackathon Solana Radar 2024
 
 This project tries to create a desktop app that can connect to a Solana endpoint, obtain data and process it with an LLM to get information from it.
