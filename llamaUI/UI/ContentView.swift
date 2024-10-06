@@ -14,17 +14,14 @@ struct ContentView: View {
     @State private var multiLineText = ""
     @State private var showingHelp = false    // To track if Help Sheet should be shown
 
-    var body: some View {
-        NavigationView {
+    var body: some View
+    {
             VStack {
                 ScrollView(.vertical, showsIndicators: true) {
                     Text(llamaState.messageLog)
                         .font(.system(size: 12))
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
-                        .onTapGesture {
-                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                        }
                 }
 
                 TextEditor(text: $multiLineText)
@@ -46,7 +43,9 @@ struct ContentView: View {
                     }
 
                     Button("Copy") {
-                        UIPasteboard.general.string = llamaState.messageLog
+                        let clipboard = NSPasteboard.general
+                        clipboard.clearContents()
+                        clipboard.writeObjects([llamaState.messageLog as NSString])
                     }
                 }
                 .buttonStyle(.bordered)
@@ -59,9 +58,6 @@ struct ContentView: View {
 
             }
             .padding()
-            .navigationBarTitle("Model Settings", displayMode: .inline)
-
-        }
     }
 
     func sendText() {
@@ -125,14 +121,7 @@ struct ContentView: View {
                 }
 
             }
-            .listStyle(GroupedListStyle())
-            .navigationBarTitle("Model Settings", displayMode: .inline).toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Help") {
-                        showingHelp = true
-                    }
-                }
-            }.sheet(isPresented: $showingHelp) {    // Sheet for help modal
+            .sheet(isPresented: $showingHelp) {    // Sheet for help modal
                 VStack(alignment: .leading) {
                     VStack(alignment: .leading) {
                         Text("1. Make sure the model is in GGUF Format")
