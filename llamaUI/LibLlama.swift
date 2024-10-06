@@ -43,6 +43,19 @@ actor LlamaContext {
     var n_cur: Int32 = 0
 
     var n_decode: Int32 = 0
+    
+    let systemPrompt: String = """
+        <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+        Cutting Knowledge Date: December 2023
+        Today Date: $$DATE$$
+
+        You are a helpful assistant with access to this information about the solana blockchain:
+        $$DATA$$
+        <|eot_id|>
+        """
+    let usrPrompt: String = "<|start_header_id|>user<|end_header_id|>\n\n"
+    let asstPrompt: String = "<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
 
     init(model: OpaquePointer, context: OpaquePointer) {
         self.model = model

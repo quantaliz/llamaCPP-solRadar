@@ -78,6 +78,7 @@
 		2C6C7B6A2A9F4F760013B5D9 /* ggml-metal.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C4C3B362A94B1CE006DAC8B /* ggml-metal.h */; };
 		2C6C7B6B2A9F4F760013B5D9 /* ggml.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C4C3B3A2A94B1CE006DAC8B /* ggml.h */; };
 		2C6C7B6D2A9F4F760013B5D9 /* llama.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C4C3B3B2A94B1CE006DAC8B /* llama.h */; };
+		2CB052242CB27E230026A41E /* URLRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB052232CB27E0F0026A41E /* URLRequests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -145,6 +146,7 @@
 		2C5BCF562C00D21300A2C4DD /* unicode-data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "unicode-data.cpp"; sourceTree = "<group>"; };
 		2C6C7B482A9F49F90013B5D9 /* llmBridgeFW.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = llmBridgeFW.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C6C7B4A2A9F49F90013B5D9 /* LLMBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LLMBridge.h; sourceTree = "<group>"; };
+		2CB052232CB27E0F0026A41E /* URLRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +187,7 @@
 				2C09A67B2C732BE30084F08B /* Bridging-Header.h */,
 				2C09A63E2C7320820084F08B /* LibLlama.swift */,
 				2C09A6382C7320820084F08B /* LlamaState.swift */,
+				2CB052232CB27E0F0026A41E /* URLRequests.swift */,
 				2C09A62C2C731AD70084F08B /* llamaUIApp.swift */,
 				2C09A6302C731AD80084F08B /* Assets.xcassets */,
 				2C09A6322C731AD80084F08B /* Preview Content */,
@@ -463,6 +466,7 @@
 				2C09A6422C7320820084F08B /* InputButton.swift in Sources */,
 				2C09A6442C7320820084F08B /* LibLlama.swift in Sources */,
 				2C09A6432C7320820084F08B /* LoadCustomButton.swift in Sources */,
+				2CB052242CB27E230026A41E /* URLRequests.swift in Sources */,
 				2C09A63F2C7320820084F08B /* LlamaState.swift in Sources */,
 				2C09A6402C7320820084F08B /* ContentView.swift in Sources */,
 				2C09A6412C7320820084F08B /* DownloadButton.swift in Sources */,

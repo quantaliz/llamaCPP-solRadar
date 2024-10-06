@@ -27,7 +27,8 @@ class LlamaState: ObservableObject {
 
     private var llamaContext: LlamaContext?
     private var defaultModelUrl: URL? {
-        Bundle.main.url(forResource: "ggml-model", withExtension: "gguf", subdirectory: "models")
+//        Bundle.main.url(forResource: "ggml-model", withExtension: "gguf", subdirectory: "models")
+        URL(string:"/Users/rhvt/Dev/llm/models/Llama-3.1-8B-Instruct-IQ3_XS.gguf")
     }
 
     init() {
@@ -89,10 +90,21 @@ class LlamaState: ObservableObject {
         if let modelUrl {
             messageLog += "Loading model...\n"
             llamaContext = try LlamaContext.create_context(path: modelUrl.path())
-            messageLog += "Loaded model \(modelUrl.lastPathComponent)\n"
-
-            // Assuming that the model is successfully loaded, update the downloaded models
-            updateDownloadedModels(modelName: modelUrl.lastPathComponent, status: "downloaded")
+            if let locLlamaContext = llamaContext  {
+                messageLog += "Loaded model \(modelUrl.lastPathComponent)\n"
+                
+                // Assuming that the model is successfully loaded, update the downloaded models
+                updateDownloadedModels(modelName: modelUrl.lastPathComponent, status: "downloaded")
+                
+            
+                let today = Date()
+                var sysPro = locLlamaContext.systemPrompt.replacingOccurrences(of: "$$DATE$$", with: today.description)
+                let urlResp = URLRequests.fetchData(from: "")
+                
+            }
+            else {
+                messageLog += "Model with URL: \(modelUrl) could not be loaded\n"
+            }
         } else {
             messageLog += "Load a model from the list below\n"
         }

@@ -6,3 +6,6 @@ This is a sample project that strips most of the contents of Llama.cpp and makes
 License: MIT
 
 Based on commit "bda62d7999caa8c222b6c354ac1e7c7442508539" from the llama project
+
+Download Model:
+https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF/
